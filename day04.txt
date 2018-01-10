@@ -1,0 +1,27 @@
+1、会话管理
+	shiro的session不依赖于底层容器（tomcat），不管javase还是javaee环境都可以使用。
+	shiro的session的相关API http://jinnianshilongnian.iteye.com/blog/2028675
+	会话监听器，用于监听会话创建，过期，停止操作。（SessionListener）
+	注意：在传统的web里面不能在service层获取httpsession(有侵入性)，有了shiro的session则可以在service层获取session
+	案例：在controller层使用httpsession存值，然后通过shiro的session在service层取值
+	sessionDao：可以把session写进我们的数据库中，然后对session对象进行增删改查（EnterpriseCacheSessionDAO）
+2、缓存
+	shiro内部相应的组件会自动检测相应的对象(realm)是否实现了CacheManagerAware并自动注入相应的CacheManager
+	可以在Object principal = principals.getPrimaryPrincipal();处打断点，然后注释掉缓存配置，然后测试
+	realm是有缓存的，去掉cache配置文件，则表示后退也需要登录验证
+	缓存一般不用shiro来做，用redis来做
+3、remember me
+	定义：一般把remember me的cookie写到客户端并保存下来，如果要查看我的订单或进行支付时，此时还是需要再进行身份认证的，
+	      以确保当前用户还是你。
+	认证和记住我：subject.isAuthenticated()表示用户进行了身份验证登录，即有subject.login进行登录
+		      subject.isRemembered()表示用户是用过记住我登录的
+		      这两种方式只能二选一
+	建议：访问一般网页可以使用记住我访问，如果是特殊网页，则必须通过验证访问
+	案例设置，先打开list.jsp页面，然后关闭当前页面，打开新页面，直接访问list.jsp页面，则可以实现remember me功能
+	
+	设置记住我的时间：<property name="rememberMeManager.cookie.maxAge" value="10"></property>
+
+4、git   http://www.runoob.com/git/git-tutorial.html
+
+5、gitHub是一个面向开源及私有软件项目的托管平台，因为只支持git 作为唯一的版本库格式进行托管，故名gitHub。
+   gitHub就是git的远程仓库，gitHub里面有很开源的代码
